@@ -11,7 +11,6 @@ public class App {
     public App(Client client, EventLogger eventLogger) {
         this.client = client;
         this.eventLogger = (ConsoleEventLogger) eventLogger;
-
     }
 
     Client client;
@@ -21,8 +20,12 @@ public class App {
 //    }
 
     void logEvent(String msg) {
-        String message = msg.replaceAll(String.valueOf(client.getId()), client.getFullName());
-        System.out.println(message);
+        //String message = msg.replaceAll(String.valueOf(client.getId()), client.getFullName());
+       // System.out.println(message);
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        Event message= (Event) ctx.getBean("event");
+        message.setMsg(msg);
+        //System.out.println(message);
         eventLogger.logEvent(message);
     }
 
@@ -37,7 +40,7 @@ public class App {
 
         App app = (App) ctx.getBean("app");
         app.logEvent("Some event for 1");
-        app.logEvent("Some event for 2");
+        //app.logEvent("Some event for 2");
     }
 
 }

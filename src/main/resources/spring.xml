@@ -11,7 +11,7 @@
     </bean>
 
 
-    <bean id="eventLogger" class="com.epam.spring.core.ConsoleEventLogger" />
+    <bean id="eventLogger" class="com.epam.spring.core.ConsoleEventLogger"/>
     <bean id="event" class="com.epam.spring.core.Event" scope="prototype">
         <constructor-arg>
             <bean class="java.util.Date"/>
@@ -21,11 +21,16 @@
 
     <bean id="df" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
 
+    <bean id="fileLogger" class="com.epam.spring.core.FileEventLogger" init-method="init">
+        <constructor-arg value="d:\myLog.txt"/>
+
+    </bean>
 
     <bean id="app" class="com.epam.spring.core.App">
         <constructor-arg ref="client"/>
         <constructor-arg ref="eventLogger"/>
     </bean>
+
 
 
 </beans>
