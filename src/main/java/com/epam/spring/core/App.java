@@ -1,6 +1,7 @@
 package com.epam.spring.core;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -10,11 +11,11 @@ public class App {
 
     public App(Client client, EventLogger eventLogger) {
         this.client = client;
-        this.eventLogger = (ConsoleEventLogger) eventLogger;
+        this.eventLogger =  eventLogger;
     }
 
     Client client;
-    ConsoleEventLogger eventLogger;
+    EventLogger eventLogger;
 
 //    public App() {
 //    }
@@ -36,10 +37,12 @@ public class App {
         //  app.eventLogger=new ConsoleEventLogger();
         //   app.logEvent("Some event for user 1");
 
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
-
+        //ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        ConfigurableApplicationContext ctx=new ClassPathXmlApplicationContext("spring.xml");
         App app = (App) ctx.getBean("app");
         app.logEvent("Some event for 1");
+
+        ctx.close();
         //app.logEvent("Some event for 2");
     }
 

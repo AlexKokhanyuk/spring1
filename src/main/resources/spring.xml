@@ -5,13 +5,17 @@
  		http://www.springframework.org/schema/beans
  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
+
+    <import resource="loggers.xml"/>
+
     <bean id="client" class="com.epam.spring.core.Client">
         <constructor-arg value="1"/>
         <constructor-arg value="John Smith"/>
+        <property name="greeting" value="Hello there"/>
     </bean>
 
 
-    <bean id="eventLogger" class="com.epam.spring.core.ConsoleEventLogger"/>
+    <!--<bean id="eventLogger" class="com.epam.spring.core.ConsoleEventLogger"/>-->
     <bean id="event" class="com.epam.spring.core.Event" scope="prototype">
         <constructor-arg>
             <bean class="java.util.Date"/>
@@ -21,16 +25,31 @@
 
     <bean id="df" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
 
-    <bean id="fileLogger" class="com.epam.spring.core.FileEventLogger" init-method="init">
-        <constructor-arg value="d:\myLog.txt"/>
+    <!--<bean id="fileLogger" class="com.epam.spring.core.FileEventLogger" init-method="init">-->
+    <!--<constructor-arg value="d:\myLog.txt"/>-->
 
-    </bean>
+    <!--</bean>-->
+
+    <!--<bean id="cacheLogger" class="com.epam.spring.core.CacheFileEventLogger" destroy-method="destroy">-->
+    <!--<constructor-arg value="d:\myLog.txt" />-->
+    <!--<constructor-arg value="10" />-->
+    <!--</bean>-->
 
     <bean id="app" class="com.epam.spring.core.App">
         <constructor-arg ref="client"/>
-        <constructor-arg ref="eventLogger"/>
+        <!--<constructor-arg ref="fileLogger"/>-->
+        <constructor-arg>
+            <!--<map>-->
+                <!--<entry key="INFO"-->
+                       <!--value-ref="eventLogger"/>-->
+                <!--<entry key="ERROR"-->
+                       <!--value-ref="combinedLogger"/>-->
+            <!--&lt;!&ndash;</map>&ndash;&gt;-->
+<!--<map>-->
+    <!--<entry key="INFO" value-ref="eventLogger"/>-->
+<!--</map>-->
+
+        </constructor-arg>
     </bean>
-
-
 
 </beans>

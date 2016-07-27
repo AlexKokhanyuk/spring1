@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by Oleksandr_Kokhanyuk on 7/26/2016.
  */
-public class FileEventLogger {
+public class FileEventLogger implements EventLogger {
     public FileEventLogger(String filename) {
         this.fileName = filename;
     }
@@ -16,9 +16,13 @@ public class FileEventLogger {
     private String fileName;
     private File file;
 
-    public void logEvent(Event event) throws IOException {
+    public void logEvent(Event event) {
 
-          FileUtils.writeStringToFile(file, event.toString(),true);
+        try {
+            FileUtils.writeStringToFile(file, event.toString(),true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

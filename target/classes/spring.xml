@@ -21,15 +21,21 @@
 
     <bean id="df" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
 
-
-    <bean id="app" class="com.epam.spring.core.App">
-        <constructor-arg ref="client"/>
-        <constructor-arg ref="eventLogger"/>
-    </bean>
-
-    <bean id="fileLoger" class="com.epam.spring.core.FileEventLogger" init-method="init">
+    <bean id="fileLogger" class="com.epam.spring.core.FileEventLogger" init-method="init">
         <constructor-arg value="d:\myLog.txt"/>
 
     </bean>
+
+    <bean id="cacheLogger" class="com.epam.spring.core.CacheFileEventLogger" destroy-method="destroy">
+        <constructor-arg value="d:\myLog.txt" />
+        <constructor-arg value="10" />
+    </bean>
+
+    <bean id="app" class="com.epam.spring.core.App">
+        <constructor-arg ref="client"/>
+        <constructor-arg ref="fileLogger"/>
+    </bean>
+
+
 
 </beans>
