@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
- 		http://www.springframework.org/schema/beans
- 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
     <import resource="loggers.xml"/>
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:client.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="systemPropertiesMode">
+            <util:constant
+                    static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        </property>
+    </bean>
+
     <bean id="client" class="com.epam.spring.core.Client">
-        <constructor-arg value="1"/>
-        <constructor-arg value="John Smith"/>
+        <constructor-arg value="${id}"/>
+        <constructor-arg value="${name}"/>
         <property name="greeting" value="Hello there"/>
     </bean>
 
@@ -36,20 +49,18 @@
     <!--</bean>-->
 
     <bean id="app" class="com.epam.spring.core.App">
-        <constructor-arg ref="client"/>
+        <!--<constructor-arg ref="client"/>-->
         <!--<constructor-arg ref="fileLogger"/>-->
         <constructor-arg>
-            <!--<map>-->
-                <!--<entry key="INFO"-->
-                       <!--value-ref="eventLogger"/>-->
-                <!--<entry key="ERROR"-->
-                       <!--value-ref="combinedLogger"/>-->
-            <!--&lt;!&ndash;</map>&ndash;&gt;-->
-<!--<map>-->
-    <!--<entry key="INFO" value-ref="eventLogger"/>-->
-<!--</map>-->
+     <map>
+         <entry key="INFO"
+                value-ref="eventLogger"/>
+         <entry key="ERROR"
+                value-ref="combinedLogger"/>
+     </map>
 
         </constructor-arg>
     </bean>
+
 
 </beans>
