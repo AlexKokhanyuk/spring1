@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+
 import java.util.Map;
 
 /**
@@ -31,6 +32,7 @@ public class App {
         Event message = (Event) ctx.getBean("event");
         message.setMsg(msg);
 
+
         EventLogger logger=loggers.get(type);
         //System.out.println(message);
         //eventLogger.logEvent(message);
@@ -38,6 +40,7 @@ public class App {
             logger=eventLogger;
         }
         logger.logEvent(message);
+
     }
 
     public static void main(String[] arg) {
@@ -51,7 +54,9 @@ public class App {
         ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         App app = (App) ctx.getBean("app");
         app.logEvent(EventType.INFO, "Some event for 1");
+
         app.logEvent(EventType.ERROR,"This Error");
+
 
        // ctx.close();
         //app.logEvent("Some event for 2");
