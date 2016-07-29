@@ -13,15 +13,16 @@ public class Event {
 
     public Event(Date date, DateFormat df) {
         this.date = date;
-        this.df=df;
+        this.df = df;
     }
 
     private String msg;
 
     private Date date;
 
-    private int id= new Random().nextInt();
+    private int id = new Random().nextInt();
     private DateFormat df;
+
     public String getMsg() {
         return msg;
     }
@@ -36,6 +37,6 @@ public class Event {
                 "msg='" + msg + '\'' +
                 ", id=" + id +
                 ", date=" + date +
-                '}';
+                '}' + "\n";
     }
 }
