@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
- 		http://www.springframework.org/schema/beans
- 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
     <import resource="loggers.xml"/>
 
-    <bean id="client" class="com.epam.spring.core.Client">
-        <constructor-arg value="1"/>
-        <constructor-arg value="John Smith"/>
-        <property name="greeting" value="Hello there"/>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:client.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="systemPropertiesMode">
+            <util:constant
+                    static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        </property>
+    </bean>
+
+    <bean id="client" class="com.epam.spring.core.Client" c:id="${id}" c:fullName="${name}" p:greeting="#{systemEnvironment['USERNAME']}">
+
+        <!--<constructor-arg value="${id}"/>-->
+        <!--<constructor-arg value="${name}"/>-->
+        <!--<property name="greeting" value="${greeting}"/>-->
     </bean>
 
 
@@ -25,16 +41,20 @@
     <bean id="df" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
 
     <bean id="app" class="com.epam.spring.core.App">
+
         <constructor-arg ref="client"/>
-        <constructor-arg ref="eventLogger"/>
-        <constructor-arg>
-            <map>
-                <entry key="INFO"
-                       value-ref="fileLogger"/>
-                <entry key="ERROR"
-                       value-ref="eventLogger"/>
-            </map>
-        </constructor-arg>
+        <!--<constructor-arg ref="eventLogger"/>-->
+        <constructor-arg value="#{T(com.epam.spring.core.Event).isDay()?eventLogger:cacheLogger}"/>
+
+        <constructor-arg ref="loggerMap"/>
+
     </bean>
+
+    <util:map id="loggerMap">
+        <entry key="INFO"
+               value-ref="fileLogger"/>
+        <entry key="ERROR"
+               value-ref="eventLogger"/>
+    </util:map>
 
 </beans>

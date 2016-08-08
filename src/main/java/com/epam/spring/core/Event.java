@@ -3,6 +3,7 @@ package com.epam.spring.core;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Random;
 
@@ -14,6 +15,14 @@ public class Event {
     public Event(Date date, DateFormat df) {
         this.date = date;
         this.df = df;
+    }
+
+    public static boolean isDay() {
+        boolean day = false;
+        if ((int) LocalDateTime.now().getHour() > 8 & (int) LocalDateTime.now().getHour() < 17) {
+            day = true;
+        }
+        return day;
     }
 
     private String msg;

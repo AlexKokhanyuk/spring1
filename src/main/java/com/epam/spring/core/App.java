@@ -5,6 +5,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public class App {
         // System.out.println(message);
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         Event message = (Event) ctx.getBean("event");
-        message.setMsg(msg);
+        message.setMsg(client.getGreeting());
 
 
         EventLogger logger=loggers.get(type);
@@ -56,6 +57,9 @@ public class App {
         app.logEvent(EventType.INFO, "Some event for 1");
 
         app.logEvent(EventType.ERROR,"This Error");
+
+        app.logEvent(null,"Console logger");
+
 
 
        // ctx.close();
